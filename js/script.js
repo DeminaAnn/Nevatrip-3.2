@@ -2,14 +2,19 @@ let routeAllItems; //все направления
 let newRouteAllItems;
 let currentRoute; // элемент time
 let routeItem = "из A в B"; // по-умолч направление
-let timeDepart; //время отправления
-let timeDepartA; //время отправления из A
-let timeDepartB; //время отправления из B
+let timeDepart = new Date(); //время отправления
+let timeDepartEnd;
+let timeDepart1; //время отправления туда
+let timeDepart2; //время отправления обратно
 let timeRoute = "50 минут"; // по-умолч время в пути
 let countOfTicket; //кол-во билетов
 let totalPrice; //стоимость билетов
 let priceOfTicket = 700; // по-умолч стоимость в 1 сторону
 let clon;
+let hoursTimeDepart1;
+let minTimeDepart1;
+
+let today = new Date();
 
 // создаем div для вывода конечной информации
 let div = document.createElement('div');
@@ -18,16 +23,11 @@ document.body.append(div);
 
 let newTime;
 
-//= document.createElement('select');
-//newTime.id = "time2";
-//newTime.className = "time2";
-//document.choise.appendChild(newTime);
-
 // получаем массив всех времен
 routeAllItems = document.querySelector('#time').querySelectorAll('option');
 
 // по-умолчанию видны времена только для направления "из A в B"
-for (let i = 6; i < 13; ++i) {
+for (let i = 6; i < (routeAllItems.length - 1); ++i) {
    routeAllItems[i].hidden = true;
 }
 
@@ -37,18 +37,19 @@ function clickOnRoute() {
    //newTime.style.display = "none";
 
    function showAllItems(Items) {
-      for (let i = 0; i < 13; ++i) { // посмотреть длинну здесь
+      for (let i = 0; i < routeAllItems.length; ++i) {
          Items[i].hidden = false;
       }
    }
 
    routeItem = document.getElementById('route').value;
 
-   // для "из A в B"
+   // для "из A в B"____________________________________________
+
    if (routeItem == "из A в B") {
       showAllItems(routeAllItems);
 
-      for (let i = 6; i < 13; ++i) {
+      for (let i = 6; i <= (routeAllItems.length - 1); ++i) {
          routeAllItems[i].hidden = true;
       }
 
@@ -56,18 +57,23 @@ function clickOnRoute() {
       if (newTime) {
          newTime.remove();
       }
-      // для "из B в A"   
+
+      // для "из B в A" ___________________________________________   
+
    } else if (routeItem == "из B в A") {
       showAllItems(routeAllItems);
 
       for (let i = 0; i < 6; ++i) {
          routeAllItems[i].hidden = true;
       }
-      newTime.remove();
-      // для "из A в B и обратно в А"
+      if (newTime) {
+         newTime.remove();
+      }
+      // для "из A в B и обратно в А" _____________________________
+
    } else {
       showAllItems(routeAllItems);
-      for (let i = 6; i < 13; ++i) {
+      for (let i = 6; i < (routeAllItems.length - 1); ++i) {
          routeAllItems[i].hidden = true;
       }
 
@@ -87,25 +93,34 @@ function clickOnRoute() {
       timeRoute = "1 час и 40 минут";
    }
 
-
 }
 
 route.onclick = clickOnRoute;
 
 
 
-
 // отображение и выбор времени отправления
 function clickTime() {
 
-   //routeAllItems = document.querySelectorAll('select option').value;
-   //console.log(routeAllItems);
+   timeDepart1 = document.getElementById('time').value;
+   //timeDepart1 = document.querySelector('#time').value;
+   console.log(timeDepart1);
+   hoursTimeDepart1 = +timeDepart1.slice(0, 2);
+   minTimeDepart1 = +timeDepart1.slice(3, 5);
 
+   timeDepart.setHours(hoursTimeDepart1);
+   timeDepart.setMinutes(minTimeDepart1);
+   timeDepartEnd = structuredClone(timeDepart);
+   let temppp = timeDepart;
+   timeDepartEnd.setMinutes(timeDepartEnd.getMinutes() + 50);
 
-   timeDepartA = document.getElementById('time').value;
+   if ((timeDepart - today) <= 0) {
+      console.dir(document.querySelector('[timeDepart1]'));
+      //document.querySelector('[timeDepart1]').setAttribute('disabled', 'disabled');
+      //document.querySelector('#time').setAttribute('disabled', 'disabled');
+      //console.log(document.querySelector('[timeDepart1]').style);
+   }
 
-
-   //elem.style.display = "none"
 }
 
 time.onclick = clickTime;
@@ -115,13 +130,13 @@ time.onclick = clickTime;
 
 function inTotal() {
 
-   countOfTicket = document.getElementById('num').value;
+   countOfTicket = document.querySelector('#num').value;
    totalPrice = countOfTicket * priceOfTicket;
 
    // заполняем сформированный div текстом
    div.innerHTML = "Вы выбрали " + countOfTicket + " билета по маршруту " + routeItem + " стоимостью " + totalPrice + "р." + "<br>" +
       "Это путешествие займет у вас " + timeRoute + "<br>" +
-      "Теплоход отправляется в " + ", а прибудет в ";
+      "Теплоход отправляется в " + timeDepart.getHours() + "-" + timeDepart.getMinutes() + ", а прибудет в " + timeDepartEnd.getHours() + "-" + timeDepartEnd.getMinutes();
 
 
 }
