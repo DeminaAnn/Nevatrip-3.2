@@ -17,6 +17,9 @@ let hoursTimeDepart1;
 let minTimeDepart1;
 
 let today = new Date();
+let newTime;
+
+
 
 // создаем div для вывода конечной информации
 const endContainer = document.querySelectorAll('.end');
@@ -24,13 +27,16 @@ console.log(endContainer[0]);
 const div = document.createElement('div');
 console.log(div);
 div.id = "total";
-endContainer[0].append(div);
+endContainer[0].after(div);
 
-let newTime;
+
+
+
+
 
 // получаем массив всех времен
 routeAllItems = document.querySelector('#time').querySelectorAll('option');
-
+//routeAllItems = 
 // по-умолчанию видны времена только для направления "из A в B"
 for (let i = 6; i < (routeAllItems.length - 1); ++i) {
    routeAllItems[i].hidden = true;
@@ -45,8 +51,6 @@ for (let i = 6; i < (routeAllItems.length - 1); ++i) {
 const route = document.querySelector('#route');
 
 function clickOnRoute() {
-
-   //newTime.style.display = "none";
 
    function showAllItems(Items) {
       for (let i = 0; i < routeAllItems.length; ++i) {
