@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 20px auto;
+  max-width: 230px;
+}
+
+.choise {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+}
+
+input,
+select {
+  border-radius: 10px;
+  margin: 5px 0px;
+  padding: 4px;
+}
+
+div#total {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 5px 0px;
+  padding: 4px;
+}

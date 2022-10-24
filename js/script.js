@@ -1,3 +1,5 @@
+"use strict";
+
 let routeAllItems; //все направления
 let newRouteAllItems;
 let currentRoute; // элемент time
@@ -17,9 +19,12 @@ let minTimeDepart1;
 let today = new Date();
 
 // создаем div для вывода конечной информации
-let div = document.createElement('div');
+const endContainer = document.querySelectorAll('.end');
+console.log(endContainer[0]);
+const div = document.createElement('div');
+console.log(div);
 div.id = "total";
-document.body.append(div);
+endContainer[0].append(div);
 
 let newTime;
 
@@ -31,7 +36,14 @@ for (let i = 6; i < (routeAllItems.length - 1); ++i) {
    routeAllItems[i].hidden = true;
 }
 
-// выбор направления
+
+
+
+
+//_________________ выбор направления_________________
+
+const route = document.querySelector('#route');
+
 function clickOnRoute() {
 
    //newTime.style.display = "none";
@@ -44,7 +56,7 @@ function clickOnRoute() {
 
    routeItem = document.getElementById('route').value;
 
-   // для "из A в B"____________________________________________
+   // для "из A в B"__________________________
 
    if (routeItem == "из A в B") {
       showAllItems(routeAllItems);
@@ -58,7 +70,7 @@ function clickOnRoute() {
          newTime.remove();
       }
 
-      // для "из B в A" ___________________________________________   
+      // для "из B в A" _______________________
 
    } else if (routeItem == "из B в A") {
       showAllItems(routeAllItems);
@@ -69,7 +81,7 @@ function clickOnRoute() {
       if (newTime) {
          newTime.remove();
       }
-      // для "из A в B и обратно в А" _____________________________
+      // для "из A в B и обратно в А" _________
 
    } else {
       showAllItems(routeAllItems);
@@ -95,11 +107,17 @@ function clickOnRoute() {
 
 }
 
-route.onclick = clickOnRoute;
+route.addEventListener("click", clickOnRoute);
 
 
 
-// отображение и выбор времени отправления
+
+
+
+// ______________отображение и выбор времени отправления______________________
+
+const time = document.querySelector('#time');
+
 function clickTime() {
 
    timeDepart1 = document.getElementById('time').value;
@@ -123,10 +141,16 @@ function clickTime() {
 
 }
 
-time.onclick = clickTime;
+time.addEventListener("click", clickTime);
 
 
 
+
+
+
+//______________ заполняем сформированный div текстом ______________________
+
+const button = document.querySelector('#button');
 
 function inTotal() {
 
@@ -141,12 +165,14 @@ function inTotal() {
 
 }
 
-button.onclick = inTotal;
+button.addEventListener("click", inTotal);
 
-function clickChoise() {
-   total.innerHTML = "";
-   newTime.remove();
 
-}
 
-choiseParam.onclick = clickChoise;
+//function clickChoise() {
+//   total.innerHTML = "";
+//   newTime.remove();
+
+//}
+
+//choiseParam.onclick = clickChoise;

@@ -6,20 +6,21 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>TimeAB</title>
+   <link rel="stylesheet" href="css/style.css">
 </head>
 
 
 <body>
    <div class="container">
       <select name="route" id="route">
-         <option value="из A в B">из A в B</option>
+         <option value="из A в B" selected>из A в B</option>
          <option value="из B в A">из B в A</option>
          <option value="из A в B и обратно в А">из A в B и обратно в А</option>
       </select>
       <div class="choise">
          <label for="time">Выберите время</label>
          <select class="time" name="time" id="time">
-            <option value="18:00(из A в B)">18:00(из A в B)</option>
+            <option value="18:00(из A в B)" selected>18:00(из A в B)</option>
             <option value="18:30(из A в B)">18:30(из A в B)</option>
             <option value="18:45(из A в B)">18:45(из A в B)</option>
             <option value="19:00(из A в B)">19:00(из A в B)</option>
@@ -37,9 +38,9 @@
 
       <label for="num">Количество билетов</label>
       <input id="num">
-      <!--<input type="button" onclick="inTotal()" value="Посчитать"></input>-->
-      <input type="button" id="button" value="Посчитать">
-      <input type="button" id="choiseParam" value="Изменить параметры">
+      <div class="end">
+         <input type="button" id="button" value="Посчитать">
+      </div>
    </div>
    <script src="../Nevatrip-3.2/js/script.js"></script>
    <!--<script src="js/script.js"></script>-->
