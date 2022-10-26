@@ -18,6 +18,7 @@ timeDepartEnd.setHours(18);
 timeDepartEnd.setMinutes(50);
 
 let timeDepart2; //время отправления обратно
+let timeDepartEnd2; //время отправления обратно
 
 
 let timeRoute = "50 минут"; // по-умолч время в пути
@@ -40,10 +41,10 @@ let newTimeContainer;
 // создаем div для вывода конечной информации
 const endContainer = document.querySelectorAll('.end');
 console.log(endContainer[0]);
-const div = document.createElement('div');
-console.log(div);
-div.id = "total";
-endContainer[0].after(div);
+const divContainer = document.createElement('div');
+//console.log(divContainer);
+divContainer.id = "total";
+endContainer[0].after(divContainer);
 
 
 
@@ -56,13 +57,34 @@ for (let i = 5; i < (routeAllItems.length); ++i) {
 }
 
 
+// функция выбора времени отправления из В в дополнительном селекте
+function clickNewTime() {
+   timeDepart2 = document.getElementById('newTime').value;
+   hoursTimeDepart2 = +timeDepart2.slice(0, 2);
+   minTimeDepart2 = +timeDepart2.slice(3, 5);
+   timeDepartEnd2 = new Date();
+   timeDepartEnd2.setHours(hoursTimeDepart2);
+   timeDepartEnd2.setMinutes(minTimeDepart2);
+   //timeDepartEnd = structuredClone(timeDepartEnd2);
+   timeDepartEnd = timeDepartEnd2;
+   let tempTime1 = timeDepartEnd.getHours() - timeDepart.getHours();
+   let tempTime2 = timeDepartEnd.getMinutes() - timeDepart.getMinutes();
+   if (tempTime1 == 2 || tempTime1 == 3 || tempTime1 == 4) {
+      timeRoute = tempTime1 + " часа " + tempTime2 + " минут";
+   } else if (tempTime1 == 1) {
+      timeRoute = tempTime1 + " час " + tempTime2 + " минут";
+   } else {
+      timeRoute = tempTime1 + " часов " + tempTime2 + " минут";
+   }
 
+}
 
-//_________________ выбор направления_________________
 
 const route = document.querySelector('#route');
 
+//_________________ выбор направления_________________
 function clickOnRoute() {
+
 
    function showAllItems(Items) {
       for (let i = 0; i < routeAllItems.length; ++i) {
@@ -70,93 +92,75 @@ function clickOnRoute() {
       }
    }
 
+
    routeItem = document.getElementById('route').value;
 
    // для "из A в B"__________________________
 
    if (routeItem == "из A в B") {
+      // показываем все элементы
       showAllItems(routeAllItems);
-
+      // скрываем ненужные options
       for (let i = 6; i <= (routeAllItems.length - 1); ++i) {
          routeAllItems[i].hidden = true;
       }
+      //найти newTime и скрыть, если есть
+      const newTimeContainer1 = document.querySelectorAll('#newTime');
+      newTimeContainer1[0].hidden = true;
 
-      document.querySelector('#newTime') //найти все newTime и удалить
-      if (newTimeContainer) {
-         newTimeContainer.remove;
-      }
+      priceOfTicket = 700;
+      timeRoute = "50 минут";
 
       // для "из B в A" _______________________
 
    } else if (routeItem == "из B в A") {
+      // показываем все элементы
       showAllItems(routeAllItems);
-
+      // скрываем ненужные options
       for (let i = 0; i < 6; ++i) {
          routeAllItems[i].hidden = true;
       }
-      if (newTimeContainer) {
-         newTimeContainer.remove();
-      }
+
+      //найти newTime и скрыть
+      const newTimeContainer1 = document.querySelectorAll('#newTime');
+      newTimeContainer1[0].hidden = true;
+
+      priceOfTicket = 700;
+      timeRoute = "50 минут";
+
       // для "из A в B и обратно в А" _________
 
    } else {
+      // показываем все элементы
       showAllItems(routeAllItems);
+      // скрываем ненужные options
       for (let i = 6; i < (routeAllItems.length - 1); ++i) {
          routeAllItems[i].hidden = true;
       }
 
-      clon = document.querySelector('#time');
-      newTimeContainer = clon.cloneNode(true);
-      newTimeContainer.id = "newTime";
-      time.after(newTimeContainer);
+      // создаем селект для newTime, если еще не создан
+      if (!document.getElementById('newTime')) {
 
+         clon = document.querySelector('#time');
+         newTimeContainer = clon.cloneNode(true);
+         newTimeContainer.id = "newTime";
+         time.after(newTimeContainer);
+      } else {
+         // показываем скрытый селект, если создан
+         const newTimeContainer1 = document.querySelectorAll('#newTime');
+         newTimeContainer1[0].hidden = false;
+      }
+
+      // в нем скрываем все направления из В в АВ по-умолч
       newRouteAllItems = document.querySelector('#newTime').querySelectorAll('option');
 
       showAllItems(newRouteAllItems);
       for (let i = 0; i < 6; ++i) {
          newRouteAllItems[i].hidden = true;
       }
-
       priceOfTicket = 1200;
-      timeRoute = "1 час и 40 минут";
-
-
-      const newTime = document.querySelector('#newTime');
-
-      function clickNewTime() {
-         timeDepart2 = document.getElementById('newTime').value;
-         console.log(timeDepart2);
-         hoursTimeDepart2 = +timeDepart2.slice(0, 2);
-         minTimeDepart2 = +timeDepart2.slice(3, 5);
-         timeDepartEnd = new Date();
-         timeDepartEnd.setHours(hoursTimeDepart2);
-         timeDepartEnd.setMinutes(minTimeDepart2);
-         console.log(document.querySelector('#newTime').querySelectorAll('option'));
-         for (let i of document.querySelector('#newTime').querySelectorAll('option')) {
-            if ((timeDepart - timeDepartEnd) <= 3000000) {
-               console.log(timeDepart);
-               console.log(timeDepartEnd);
-               //if (i.value != timeDepart2) {
-               console.log(i.value);
-               i.disabled = 'disabled';
-               //exit;
-               //document.querySelector('#newTime').querySelectorAll('option')[i].disabled = 'disabled';
-
-            }
-         }
-         //console.log(document.getElementsByTagName(document.querySelector('#newTime')));
-         //console.log(newTime.querySelectorAll("[value='timeDepart2']"));
-         document.getElementsByTagName('option')[0].disabled = 'disabled';
-         if ((timeDepart.getMinutes() - timeDepartEnd) < 0) {
-
-            //document.querySelectorAll('[data-foo="timeDepart2"]').style.disabled = true;
-
-         }
-      }
-
       newTime.addEventListener("click", clickNewTime);
    }
-
 }
 
 route.addEventListener("click", clickOnRoute);
@@ -164,49 +168,26 @@ route.addEventListener("click", clickOnRoute);
 
 
 
-
-
-// ______________отображение и выбор времени отправления______________________
-
 const time = document.querySelector('#time');
 
-
+// ______________отображение и выбор времени отправления______________________
 function clickTime() {
-
-
    timeDepart = new Date();
    timeDepart1 = document.getElementById('time').value;
-   console.log(timeDepart1);
    hoursTimeDepart1 = +timeDepart1.slice(0, 2);
    minTimeDepart1 = +timeDepart1.slice(3, 5);
-
    timeDepart.setHours(hoursTimeDepart1);
    timeDepart.setMinutes(minTimeDepart1);
-   timeDepartEnd = structuredClone(timeDepart);
-   //let temppp = timeDepart;
 
    if ((routeItem == "из A в B") || (routeItem == "из B в A")) {
-      timeDepartEnd.setMinutes(timeDepartEnd.getMinutes() + 50);
+      timeDepartEnd = new Date();
+      timeDepartEnd.setHours(hoursTimeDepart1);
+      timeDepartEnd.setMinutes(minTimeDepart1);
+      timeDepartEnd.setMinutes(timeDepart.getMinutes() + 50);
    }
-
-   //if ((timeDepart - today) <= 0) {
-   //console.dir(document.querySelector('[timeDepart1]'));
-   //document.querySelector('[timeDepart1]').setAttribute('disabled', 'disabled');
-   //document.querySelector('#time').setAttribute('disabled', 'disabled');
-   //console.log(document.querySelector('[timeDepart1]').style);
-   //}
-
-}
-
-function clickNewTime() {
-   timeDepart2 = document.getElementById('newTime').value;
-   console.log(timeDepart2);
 }
 
 time.addEventListener("click", clickTime);
-
-
-
 
 
 
@@ -218,24 +199,15 @@ const button = document.querySelector('#button');
 function inTotal() {
 
    countOfTicket = document.querySelector('#num').value;
+   if (countOfTicket == 0 || !countOfTicket.isInteger) {
+      alert("Введите количество билетов");
+   }
    totalPrice = countOfTicket * priceOfTicket;
 
    // заполняем сформированный div текстом
-   div.innerHTML = "Вы выбрали " + countOfTicket + " билета по маршруту " + routeItem + " стоимостью " + totalPrice + "р." + "<br>" +
+   divContainer.innerHTML = "Вы выбрали " + countOfTicket + " билета по маршруту " + routeItem + " стоимостью " + totalPrice + "р." + "<br>" +
       "Это путешествие займет у вас " + timeRoute + "<br>" +
       "Теплоход отправляется в " + timeDepart.getHours() + "-" + timeDepart.getMinutes() + ", а прибудет в " + timeDepartEnd.getHours() + "-" + timeDepartEnd.getMinutes();
-
-
 }
 
 button.addEventListener("click", inTotal);
-
-
-
-//function clickChoice() {
-//   total.innerHTML = "";
-//   newTime.remove();
-
-//}
-
-//choiceParam.onclick = clickChoice;
