@@ -52,7 +52,7 @@ endContainer[0].after(divContainer);
 // получаем массив всех времен
 const routeAllItems = document.querySelector('#time').querySelectorAll('option'); //все направления в одну сторону "туда", "обратно"
 // по-умолчанию видны времена только для направления "из A в B"
-for (let i = 5; i < (routeAllItems.length); ++i) {
+for (let i = 6; i < (routeAllItems.length); ++i) {
    routeAllItems[i].hidden = true;
 }
 
@@ -161,10 +161,13 @@ function clickOnRoute() {
       }
       priceOfTicket = 1200;
       newTime.addEventListener("click", clickNewTime);
+      newTime.addEventListener("touchend", clickNewTime);
    }
 }
 
 route.addEventListener("click", clickOnRoute);
+route.addEventListener("touchend", clickOnRoute);
+
 
 
 
@@ -223,7 +226,7 @@ function clickTime() {
 }
 
 time.addEventListener("click", clickTime);
-
+time.addEventListener("touchend", clickTime);
 
 
 
@@ -248,3 +251,4 @@ function inTotal() {
 }
 
 button.addEventListener("click", inTotal);
+button.addEventListener("touchend", inTotal);
