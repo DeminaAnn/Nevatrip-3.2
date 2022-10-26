@@ -64,9 +64,10 @@ function clickNewTime() {
    minTimeDepart2 = +timeDepart2.slice(3, 5);
    timeDepartEnd2 = new Date();
    timeDepartEnd2.setHours(hoursTimeDepart2);
-   timeDepartEnd2.setMinutes(minTimeDepart2);
-   //timeDepartEnd = structuredClone(timeDepartEnd2);
+   timeDepartEnd2.setMinutes(minTimeDepart2 + 50);
+   //timeDepartEnd2.setMinutes(timeDepart.getMinutes() + 50);
    timeDepartEnd = timeDepartEnd2;
+
    let tempTime1 = timeDepartEnd.getHours() - timeDepart.getHours();
    let tempTime2 = timeDepartEnd.getMinutes() - timeDepart.getMinutes();
    if (tempTime1 == 2 || tempTime1 == 3 || tempTime1 == 4) {
@@ -146,7 +147,7 @@ function clickOnRoute() {
          newTimeContainer.id = "newTime";
          time.after(newTimeContainer);
       } else {
-         // показываем скрытый селект, если создан
+         // показываем скрытый селект для newTime, если создан
          const newTimeContainer1 = document.querySelectorAll('#newTime');
          newTimeContainer1[0].hidden = false;
       }
@@ -179,11 +180,45 @@ function clickTime() {
    timeDepart.setHours(hoursTimeDepart1);
    timeDepart.setMinutes(minTimeDepart1);
 
+
+
    if ((routeItem == "из A в B") || (routeItem == "из B в A")) {
       timeDepartEnd = new Date();
       timeDepartEnd.setHours(hoursTimeDepart1);
       timeDepartEnd.setMinutes(minTimeDepart1);
       timeDepartEnd.setMinutes(timeDepart.getMinutes() + 50);
+   } else {
+      for (let j = 0; j < document.querySelector('#newTime').querySelectorAll('option').length; j++) {
+         document.querySelector('#newTime').querySelectorAll('option')[j].disabled = "";
+      }
+
+      // достаем из value время отправления "туда" и создаем числовую переменную
+      let time1 = new Date();
+      let timeHelp = document.getElementById('time').value;
+      let hoursTimeHelp1 = +timeHelp.slice(0, 2);
+      let minTimeHelp1 = +timeHelp.slice(3, 5);
+      time1.setHours(hoursTimeHelp1);
+      time1.setMinutes(minTimeHelp1);
+      time1.setMinutes(time1.getMinutes() + 50);
+
+      let time2 = new Date();
+
+      for (const i of document.querySelector('#newTime').querySelectorAll('option')) {
+         for (let j = 0; j < document.querySelector('#newTime').querySelectorAll('option').length; j++) {
+
+            // достаем из value время отправления "обратно" и создаем числовую переменную
+            timeHelp = document.querySelector('#newTime').querySelectorAll('option')[j].value;
+            let hoursTimeHelp2 = +timeHelp.slice(0, 2);
+            let minTimeHelp2 = +timeHelp.slice(3, 5);
+            time2.setHours(hoursTimeHelp2);
+            time2.setMinutes(minTimeHelp2);
+
+            // если время обратно меньше чем время отправления + 50 минут, то скрыть
+            if ((time2 - time1) < 0) {
+               document.querySelector('#newTime').querySelectorAll('option')[j].disabled = "disabled";
+            }
+         }
+      }
    }
 }
 
@@ -198,9 +233,11 @@ const button = document.querySelector('#button');
 
 function inTotal() {
 
-   countOfTicket = document.querySelector('#num').value;
-   if (countOfTicket == 0 || !countOfTicket.isInteger) {
+   countOfTicket = +document.querySelector('#num').value;
+   console.log(Number.isInteger(countOfTicket));
+   if (countOfTicket <= 0 || !Number.isInteger(countOfTicket) || (countOfTicket - parseInt(countOfTicket)) != 0) {
       alert("Введите количество билетов");
+      countOfTicket = 0;
    }
    totalPrice = countOfTicket * priceOfTicket;
 
